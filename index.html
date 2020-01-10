@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "UTF-8" />
+		<title>Terminal A.Ch.</title>
+	</head>
+	<body>
+		<script src = "jquery-3.4.1.js"></script>
+		<script src = "html2canvas.js"></script>
+		<script>
+			var nal = false;
+			var card = true;
+			var posx = 0;
+			var toPay = 0;
+			function avercost(n) {
+				var el1 = document.getElementById("pr" + String(n)).querySelector("#price").querySelector("input").value;
+				var el2 = document.getElementById("pr" + String(n)).querySelector("#quan").querySelector("input").value;
+				var ce3 = document.getElementById("pr" + String(n)).querySelector("#cost").querySelector("input");
+				
+				ce3.value = el1 * el2;
+				toPay += (el1 * el2);
+				
+				document.getElementById("itogToPay").value = toPay;
+			};
+
+			function delprod(n) {
+				var el0 = document.getElementById("pr" + String(n)).querySelector("#prod").querySelector("input");
+				var el1 = document.getElementById("pr" + String(n)).querySelector("#price").querySelector("input");
+				var el2 = document.getElementById("pr" + String(n)).querySelector("#quan").querySelector("input");
+				var ce3 = document.getElementById("pr" + String(n)).querySelector("#cost").querySelector("input");
+
+				toPay -= (el1.value * el2.value);
+				document.getElementById("itogToPay").value = toPay;
+
+				el0.value = "";
+				el1.value = "";
+				el2.value = "";
+				ce3.value = "";
+			};
+			
+			function quantityChildrenElems(elForCount) {
+				var fIndex = 0;
+				while (true) {
+					if ((elForCount.children[fIndex] === undefined) || (elForCount.children[fIndex] === null)) {
+						break;
+					}
+					fIndex++;
+				}
+				return fIndex;
+			};
+			
+			function clearItog() {
+				toPay = 0;
+				document.getElementById("itogToPay").value = toPay;
+
+				for (var i = 0; i < 50; i++) {
+
+					if ((document.getElementsByName("prodCol")[i] === null) ||
+						(document.getElementsByName("prodCol")[i] === undefined)) {
+						break;
+					}
+
+					document.getElementsByName("prodCol")[i].getElementById("prod").querySelector("input").value  = "";
+					document.getElementsByName("prodCol")[i].getElementById("price").querySelector("input").value = "";
+					document.getElementsByName("prodCol")[i].getElementById("quan").querySelector("input").value  = "";
+					document.getElementsByName("prodCol")[i].getElementById("cost").querySelector("input").value  = "";
+				}
+			};
+			
+			var nClone = 1;
+			var nwnClone;
+			function cloneTr() {
+				nClone += 1;
+				nwnClone = nClone - 1;
+				var stableElem = document.getElementById("shopTable");
+				var cloneEl = (document.getElementsByName("prodCol")[0]).cloneNode(true);
+			  	cloneEl.trN = quantityChildrenElems(document.getElementById('shopTable'));
+				cloneEl.trN += 1;
+				cloneEl.id = "pr" + String(nClone);
+				cloneEl.querySelector("#prod").querySelector("input").value = "";
+				cloneEl.querySelector("#price").querySelector("input").value = "";
+				//cloneEl.querySelector("#price").querySelector("input").id = "p" + String(nwnClone) + "1";
+				cloneEl.querySelector("#quan").querySelector("input").value = "";
+				//cloneEl.querySelector("#quan").querySelector("input").id = "p" + String(nwnClone) + "2";
+				cloneEl.querySelector("#cost").querySelector("input").value = "";
+				//cloneEl.querySelector("#cost").querySelector("input").id = "p" + String(nwnClone) + "3";
+				cloneEl.querySelector("#acbutton").querySelector("button").onclick = function () {
+					avercost(cloneEl.trN);
+			  	};
+			  	cloneEl.querySelector("#delbutton").querySelector("button").onclick = function () {
+					avercost(cloneEl.trN);
+				};
+				
+				stableElem.appendChild(cloneEl);
+			};
+				
+			function exportCanvasAsPNG(elem, fileName) {
+	      		
+		        var canvasElement = elem;
+		    
+		        var MIME_TYPE = "image/png";
+		    
+		        var imgURL = canvasElement.toDataURL(MIME_TYPE);
+		    
+		        var dlLink = document.createElement('a');
+		        dlLink.download = fileName;
+		        dlLink.href = imgURL;
+		        dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+		    
+		        document.body.appendChild(dlLink);
+		        dlLink.click();
+		        document.body.removeChild(dlLink);
+	      	};
+				
+			function termPay(paytype) {
+				alert("К оплате: " + toPay + " руб. Бонусной картой: " + String(toPay / 10 / 2) + " б.");
+				
+				var load = document.getElementById("load");
+				var ctx = load.getContext("2d");
+				var nextloadanim = false;
+
+				if (paytype == nal) {
+					var cashpaid = prompt("Внесено наличными:", String(toPay));
+					if (cashpaid < toPay) {
+						alert("Недоплата!");
+					}
+					var remainder = cashpaid - toPay;
+					alert("Сдача: " + remainder + "руб.");
+				}
+				else if (paytype == card) {
+					var confirmToPay = confirm("Безналичная оплата картой");
+					if (!confirmToPay) {
+						return;
+					}
+				}
+				else {
+					alert("err");
+				}
+				
+				ctx.lineWidth = load.height;
+				ctx.strokeStyle = "darkturquoise";
+				
+				var interval = setInterval(function () {
+					posx += 1;
+					ctx.beginPath();
+					ctx.moveTo(0, 0);
+					ctx.lineTo(posx, 0);
+					ctx.stroke();
+					if (posx > load.width) {
+						ctx.strokeStyle = "white";
+						posx = 0;
+						var interv1 = setInterval(function () {
+							posx += 1;
+							ctx.beginPath();
+							ctx.moveTo(0, 0);
+							ctx.lineTo(posx, 0);
+							ctx.stroke();
+							if (posx > load.width) {
+								ctx.strokeStyle = "darkturquoise";
+								posx = 0;
+								var interv2 = setInterval(function () {
+								posx += 1;
+								ctx.beginPath();
+								ctx.moveTo(0, 0);
+								ctx.lineTo(posx, 0);
+								ctx.stroke();
+								if (posx > load.width) {
+									ctx.strokeStyle = "white";
+									posx = 0;
+									var interv3 = setInterval(function () {
+										posx += 1;
+										ctx.beginPath();
+										ctx.moveTo(0, 0);
+										ctx.lineTo(posx, 0);
+										ctx.stroke();
+										if (posx > load.width) {
+				              ctx.clearRect(0, 0, 200, 25);
+											clearInterval(interv3);
+										}
+									}, 15);
+									clearInterval(interv2);
+								}
+							}, 15);
+								clearInterval(interv1);
+							}
+						}, 15);
+						clearInterval(interval);
+					}
+				}, 15);
+				
+				html2canvas(document.querySelector("#shopTable")).then(canvas => {
+					//canvas.id = "printOnCanvTab";
+					document.querySelector("#printTableDiv").appendChild(canvas);
+				});
+				
+				/*var canv = document.getElementById("printOnCanvTab");
+				//var canvdom = document.getElementById("labelPrint").nextSibling;
+				var canv = $("#printTableDiv canvas");
+				//alert(canv.toDataURL());*/
+				var date = new Date();
+				/*var dataURL = canv.toDataURL();
+				var link = document.createElement("a");
+				link.href = dataURL;
+				link.download = user + "_" + date.getFullYear() + date.getMonth() + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".png";
+				link.click();
+				document.querySelector("#printTableDiv").removeChild(canvas);*/
+	    
+	    		exportCanvasAsPNG(document.getElementById("labelPrint").nextSibling, (date.getFullYear() + date.getMonth() + date.getDate() + "_" + date.getHours() + date.getMinutes() + date.getSeconds() + ".png"));
+				//window.print();
+			};
+
+		</script>
+		<div class = "disp">
+			<span>Terminal</span>
+			<canvas id = "load" width = "200" height = "25"></canvas>
+			<br />
+			<table id = "shopTable">
+				<tr id = "pr1" name = "prodCol">
+					<td id = "prod">
+						<input type = "text" placeholder = "Наименование продукта" />
+					</td>
+					<td id = "price">
+						<input type = "number" min = "0" max = "50000" step = "50" placeholder = "Цена" />
+					</td>
+					<td id = "quan">
+						<input type = "number" min = "1" max = "1000" step = "1" placeholder = "Кол-во" />
+					</td>
+					<td id = "cost">
+						<input type = "number" min = "0" max = "500000" name = "cost" placeholder = "Стоимость" readonly />
+					</td>
+					<td id = "acbutton">
+						<button id = "avercost" onclick = "avercost(1)">OK</button>
+					</td>
+					<td id = "delbutton">
+						<button id = "delprod" onclick = "delprod(1)">DEL</button>
+					</td>
+				</tr>
+			</table>
+			<button id = "add_col" onclick = "cloneTr()">Добавить</button>
+		</div>
+		<br />
+		<button id = "pay" onclick = "termPay(nal)">НАЛИЧНЫЕ</button>
+		<button id = "pay" onclick = "termPay(card)">КАРТА</button>
+		<label> К оплате: </label>
+		<input type = "number" min = "10" max = "2000000" id = "itogToPay" class = "itog" />
+		 руб.
+		<span id = "bonusItogToPay" class = "itog"></span>
+		<br/>
+		<button id = "clear" onclick = "clearItog()">CLEAR</button>
+		<div id = "printTableDiv">
+			<span id = "labelPrint">PRINT:</span>
+		</div>
+		<style>
+			input {
+				font-size:   18px;
+				font-family: "Tahoma";
+			}
+			span {
+				font-size:   14px;
+				font-family: "Tahoma";
+			}
+			#pay, #clear, .itog {
+				width:       75px;
+				height:      37.5px;
+				font-size:   20px;
+				font-family: "Georgia";
+			}
+			canvas {
+				margin-left: 200px;
+			}
+		</style>
+	</body>
+</html>
