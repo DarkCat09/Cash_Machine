@@ -1,0 +1,25 @@
+#cashier-name {
+	font-size:   8pt;
+	font-family: "Times New Roman";
+}
+
+input {
+	font-size:   18px;
+	font-family: "Tahoma";
+}
+
+span {
+	font-size:   14px;
+	font-family: "Tahoma";
+}
+
+#pay, #clear, .itog {
+	width:       auto;
+	height:      37.5px;
+	font-size:   20px;
+	font-family: "Georgia";
+}
+
+canvas {
+	margin-left: 200px;
+}
