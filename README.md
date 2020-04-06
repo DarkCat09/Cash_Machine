@@ -1,4 +1,4 @@
-# Cash_Machine
+# CashMachine, AChTerminal
 ## by Chechkenev Andrew (DarkCat09/CodePicker13)
 
 **In english**
