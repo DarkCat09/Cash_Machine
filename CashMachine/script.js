@@ -32,6 +32,7 @@ function delprod(n) {
 };
 
 function quantityChildrenElems(elForCount) {
+	//working
 	var fIndex = 0;
 	while (true) {
 		if ((elForCount.children[fIndex] === undefined) || (elForCount.children[fIndex] === null)) {
@@ -40,6 +41,10 @@ function quantityChildrenElems(elForCount) {
 		fIndex++;
 	}
 	return fIndex;
+
+	//not working
+	/*var elsInEl = elForCount.getElementsByTagName("*");
+	return elsInEl.lenght;*/
 };
 
 function clearItog() {
@@ -60,16 +65,12 @@ function clearItog() {
 	}
 };
 
-var nClone = 1;
-var nwnClone;
 function cloneTr() {
-	nClone += 1;
-	nwnClone = nClone - 1;
 	var stableElem = document.getElementById("shopTable");
 	var cloneEl = (document.getElementsByName("prodCol")[0]).cloneNode(true);
   	cloneEl.trN = quantityChildrenElems(document.getElementById('shopTable'));
 	cloneEl.trN += 1;
-	cloneEl.id = "pr" + String(nClone);
+	cloneEl.id = "pr" + String(cloneEl.trN);
 	cloneEl.querySelector("#prod").querySelector("input").value = "";
 	cloneEl.querySelector("#price").querySelector("input").value = "";
 	cloneEl.querySelector("#quan").querySelector("input").value = "";
@@ -77,8 +78,9 @@ function cloneTr() {
 	cloneEl.querySelector("#acbutton").querySelector("button").onclick = function () {
 		avercost(cloneEl.trN);
   	};
+
   	cloneEl.querySelector("#delbutton").querySelector("button").onclick = function () {
-		avercost(cloneEl.trN);
+		delprod(cloneEl.trN);
 	};
 	
 	stableElem.appendChild(cloneEl);
@@ -113,6 +115,7 @@ function termPay(paytype) {
 		var cashpaid = prompt("Внесено наличными:", String(toPay));
 		if (cashpaid < toPay) {
 			alert("Недоплата!");
+			return;
 		}
 		var remainder = cashpaid - toPay;
 		alert("Сдача: " + remainder + "руб.");
@@ -147,40 +150,45 @@ function termPay(paytype) {
 				ctx.lineTo(posx, 0);
 				ctx.stroke();
 				if (posx > load.width) {
+					ctx.clearRect(0, 0, 200, 25);
 					ctx.strokeStyle = "darkturquoise";
 					posx = 0;
 					var interv2 = setInterval(function () {
-					posx += 1;
-					ctx.beginPath();
-					ctx.moveTo(0, 0);
-					ctx.lineTo(posx, 0);
-					ctx.stroke();
-					if (posx > load.width) {
-						ctx.strokeStyle = "white";
-						posx = 0;
-						var interv3 = setInterval(function () {
-							posx += 1;
-							ctx.beginPath();
-							ctx.moveTo(0, 0);
-							ctx.lineTo(posx, 0);
-							ctx.stroke();
-							if (posx > load.width) {
-	              ctx.clearRect(0, 0, 200, 25);
-								clearInterval(interv3);
-							}
-						}, 15);
-						clearInterval(interv2);
-					}
-				}, 15);
-					clearInterval(interv1);
+						posx += 1;
+						ctx.beginPath();
+						ctx.moveTo(0, 0);
+						ctx.lineTo(posx, 0);
+						ctx.stroke();
+						if (posx > load.width) {
+							ctx.strokeStyle = "white";
+							posx = 0;
+							var interv3 = setInterval(function () {
+								posx += 1;
+								ctx.beginPath();
+								ctx.moveTo(0, 0);
+								ctx.lineTo(posx, 0);
+								ctx.stroke();
+								if (posx > load.width) {
+		              				ctx.clearRect(0, 0, 200, 25);
+									clearInterval(interv3);
+								}
+							}, 15);
+							clearInterval(interv2);
+						}
+					}, 15);
+				clearInterval(interv1);
 				}
 			}, 15);
 			clearInterval(interval);
 		}
 	}, 15);
+
+	prevCanvas = document.getElementById("printTableDiv").getElementsByTagName("canvas")[0];
+	if ((prevCanvas !== null) && (prevCanvas !== undefined)) {
+		prevCanvas.remove();
+	}
 	
 	html2canvas(document.querySelector("#shopTable")).then(canvas => {
-
 		document.querySelector("#printTableDiv").appendChild(canvas);
 	});
 	
