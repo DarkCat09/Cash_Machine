@@ -1,5 +1,5 @@
 # Cash_Machine
-## by DarkCat09
+## by Chechkenev Andrew (DarkCat09/CodePicker13)
 
 **In english**
 This is my Virtual Cash Machine on HTML/CSS/JS. It has got ONLY Russian interface.
