@@ -12,12 +12,17 @@
 		<span id = "cashier-name">Кассир: </span>
 
 		<script>
+			if ((cashier === null) || (cashier == "")) {
+				cashier = "Аноним";
+			}
 			alert(cashier + ", Вас приветствует система A.Ch. Terminal!");
 			document.querySelector("#cashier-name").innerHTML = "Кассир: " + cashier;
+
+			document.querySelector("body").onkeypress = handleKey;
 		</script>
 
 		<div class = "disp">
-			<span>Terminal</span>
+			<span id = "terminal-header">Terminal</span>
 			<canvas id = "load" width = "200" height = "25"></canvas>
 			<br />
 			<table id = "shopTable">

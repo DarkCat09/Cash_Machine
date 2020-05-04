@@ -1,6 +1,12 @@
 #cashier-name {
-	font-size:   8pt;
-	font-family: "Times New Roman";
+	background-color: gray;
+	color:            white;
+	font-size:        9pt;
+	font-family:      "Verdana";
+}
+
+#terminal-header {
+	font-weight: bold;
 }
 
 input {

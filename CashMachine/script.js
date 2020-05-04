@@ -58,10 +58,10 @@ function clearItog() {
 			break;
 		}
 
-		document.getElementsByName("prodCol")[i].getElementById("prod").querySelector("input").value  = "";
-		document.getElementsByName("prodCol")[i].getElementById("price").querySelector("input").value = "";
-		document.getElementsByName("prodCol")[i].getElementById("quan").querySelector("input").value  = "";
-		document.getElementsByName("prodCol")[i].getElementById("cost").querySelector("input").value  = "";
+		document.getElementsByName("prodCol")[i].querySelector("#prod").querySelector("input").value  = "";
+		document.getElementsByName("prodCol")[i].querySelector("#price").querySelector("input").value = "";
+		document.getElementsByName("prodCol")[i].querySelector("#quan").querySelector("input").value  = "";
+		document.getElementsByName("prodCol")[i].querySelector("#cost").querySelector("input").value  = "";
 	}
 };
 
@@ -197,4 +197,25 @@ function termPay(paytype) {
 	exportCanvasAsPNG(document.getElementById("labelPrint").nextSibling,
 					(date.getFullYear() + date.getMonth() + date.getDate() + "_" +
 					date.getHours() + date.getMinutes() + date.getSeconds() + ".png"));
+};
+
+function handleKey(e) {
+	if (e.key == "p") {
+		var actx = new AudioContext();
+		var o    = actx.createOscillator();
+		var g    = actx.createGain();
+		o.type   = "sine";
+		o.connect(g);
+		o.frequency.value = 1000;
+		g.connect(actx.destination);
+		o.start(0);
+		g.gain.exponentialRampToValueAtTime(0.00001, actx.currentTime + 1);
+	}
+
+	if (e.key == "e") {
+		termPay(nal);
+	}
+	if (e.key == "r") {
+		termPay(card);
+	}
 };
