@@ -1,0 +1,31 @@
+#cashier-name {
+	background-color: gray;
+	color:            white;
+	font-size:        9pt;
+	font-family:      "Verdana";
+}
+
+#terminal-header {
+	font-weight: bold;
+}
+
+input {
+	font-size:   18px;
+	font-family: "Tahoma";
+}
+
+span {
+	font-size:   14px;
+	font-family: "Tahoma";
+}
+
+#pay, #clear, .itog {
+	width:       auto;
+	height:      37.5px;
+	font-size:   20px;
+	font-family: "Georgia";
+}
+
+canvas {
+	margin-left: 200px;
+}
