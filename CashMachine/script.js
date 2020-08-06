@@ -63,6 +63,8 @@ function clearItog() {
 		document.getElementsByName("prodCol")[i].querySelector("#quan").querySelector("input").value  = "";
 		document.getElementsByName("prodCol")[i].querySelector("#cost").querySelector("input").value  = "";
 	}
+
+	document.getElementById("printTableDiv").children[1].remove();
 };
 
 function cloneTr() {
@@ -102,7 +104,7 @@ function exportCanvasAsPNG(elem, fileName) {
     document.body.appendChild(dlLink);
     dlLink.click();
     document.body.removeChild(dlLink);
-	};
+};
 	
 function termPay(paytype) {
 	alert("К оплате: " + toPay + " руб. Бонусной картой: " + String(toPay / 10 / 2) + " б.");
@@ -200,22 +202,36 @@ function termPay(paytype) {
 };
 
 function handleKey(e) {
-	if (e.key == "p") {
-		var actx = new AudioContext();
-		var o    = actx.createOscillator();
-		var g    = actx.createGain();
-		o.type   = "sine";
-		o.connect(g);
-		o.frequency.value = 1000;
-		g.connect(actx.destination);
-		o.start(0);
-		g.gain.exponentialRampToValueAtTime(0.00001, actx.currentTime + 1);
-	}
 
-	if (e.key == "e") {
-		termPay(nal);
+	if (document.getElementById("enShortcuts").checked) {
+		if (e.key == "p") {
+			var actx = new AudioContext();
+			var o    = actx.createOscillator();
+			var g    = actx.createGain();
+			o.type   = "sine";
+			o.connect(g);
+			o.frequency.value = 1000;
+			g.connect(actx.destination);
+			o.start(0);
+			g.gain.exponentialRampToValueAtTime(0.00001, actx.currentTime + 1);
+		}
+
+		if (e.key == "e") {
+			termPay(nal);
+		}
+		if (e.key == "r") {
+			termPay(card);
+		}
 	}
-	if (e.key == "r") {
-		termPay(card);
+};
+
+function informAboutShortcuts() {
+	if (document.getElementById("enShortcuts").checked) {
+		alert(
+			"Горячие клавиши:\n" +
+			"P - пищание\n" +
+			"E - оплата наличными\n" +
+			"R - оплата картой"
+		);
 	}
 };
