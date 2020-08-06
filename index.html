@@ -12,7 +12,7 @@
 		<span id = "cashier-name">Кассир: </span>
 
 		<script>
-			if ((cashier === null) || (cashier == "")) {
+			if ((cashier === null) || (cashier == "") || (cashier == " ")) {
 				cashier = "Аноним";
 			}
 			alert(cashier + ", Вас приветствует система A.Ch. Terminal!");
@@ -57,7 +57,8 @@
 		 руб.
 		<span id = "bonusItogToPay" class = "itog"></span>
 		<br/>
-		<button id = "clear" onclick = "clearItog()">CLEAR</button>
+		<button id = "clear" onclick = "clearItog()">CLEAR</button><br />
+		<input type = "checkbox" id = "enShortcuts" onchange = "informAboutShortcuts();" /> Включить горячие клавиши<br />
 		<div id = "printTableDiv">
 			<span id = "labelPrint">PRINT:</span>
 		</div>
