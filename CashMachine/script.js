@@ -235,3 +235,16 @@ function informAboutShortcuts() {
 		);
 	}
 };
+
+function addProducts() {
+	var prodlist = document.getElementById("products_list");
+	prodname = "";
+	while (prodname != null) {
+		prodname = prompt("Введите наименование продукта", "");
+		if (prodname != null && prodname != "") {
+			prodlist.innerHTML += '<option>' + (new Intl.NumberFormat("ru",
+			{useGrouping: false, minimumIntegerDigits: 6}).format(Number(prodlist.lastElementChild.innerHTML.split(" ")[0])+1)) +
+			' ' + prodname + '</option>';
+		}
+	}
+};
