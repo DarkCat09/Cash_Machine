@@ -25,6 +25,7 @@ span {
 	font-size: 20px;
 	font-family: "Georgia";
 }
+.button { text-transform: uppercase; }
 
 canvas {
 	margin-left: 200px;

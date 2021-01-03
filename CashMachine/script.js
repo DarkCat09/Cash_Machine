@@ -31,22 +31,6 @@ function delprod(n) {
 	ce3.value = "";
 };
 
-function quantityChildrenElems(elForCount) {
-	//working
-	var fIndex = 0;
-	while (true) {
-		if ((elForCount.children[fIndex] === undefined) || (elForCount.children[fIndex] === null)) {
-			break;
-		}
-		fIndex++;
-	}
-	return fIndex;
-
-	//not working
-	/*var elsInEl = elForCount.getElementsByTagName("*");
-	return elsInEl.lenght;*/
-};
-
 function clearItog() {
 	toPay = 0;
 	document.getElementById("itogToPay").value = toPay;
@@ -70,7 +54,7 @@ function clearItog() {
 function cloneTr() {
 	var stableElem = document.getElementById("shopTable");
 	var cloneEl = (document.getElementsByName("prodCol")[0]).cloneNode(true);
-  	cloneEl.trN = quantityChildrenElems(document.getElementById('shopTable'));
+  	cloneEl.trN = document.getElementById('shopTable').children.length;
 	cloneEl.trN += 1;
 	cloneEl.id = "pr" + String(cloneEl.trN);
 	cloneEl.querySelector("#prod").querySelector("input").value = "";
@@ -238,13 +222,63 @@ function informAboutShortcuts() {
 
 function addProducts() {
 	var prodlist = document.getElementById("products_list");
-	prodname = "";
+	var prodname = "";
+
 	while (prodname != null) {
-		prodname = prompt("Введите наименование продукта", "");
+
+		prodprops = prompt("Введите наименование и цену продукта продукта (разделяется точкой с запятой)", "Продукт \"Производитель\";50").split(';');
+		prodname = prodprops[0];
+		prodprice = prodprops[1];
+
 		if (prodname != null && prodname != "") {
-			prodlist.innerHTML += '<option>' + (new Intl.NumberFormat("ru",
-			{useGrouping: false, minimumIntegerDigits: 6}).format(Number(prodlist.lastElementChild.innerHTML.split(" ")[0])+1)) +
+
+			prodlist.innerHTML +=
+			'<option name = "' + prodprice + '">' + (
+				new Intl.NumberFormat(
+					"ru", {useGrouping: false, minimumIntegerDigits: 6}).format(
+						Number(prodlist.lastElementChild.innerHTML.split(' ')[0])+1
+					)
+			) +
 			' ' + prodname + '</option>';
 		}
 	}
+};
+
+function getProducts() {
+	var handlerUri = prompt("Введите URI серверного скрипта-обработчика запросов к БД:", "");
+	var database_opts = {
+		"user": encodeURIComponent(prompt("Введите имя пользователя для доступа к БД:", "cashmachine")),
+		"passwd": encodeURIComponent(prompt("Введите пароль для доступа к БД:", "user106")),
+		"name": encodeURIComponent(prompt("Введите название БД с продуктами:", "cashmachine")),
+		"table": encodeURIComponent(prompt("Введите название таблицы с продуктами", "products"))
+	};
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", handlerUri);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+
+			var prodlist = document.getElementById("products_list");
+			var prodname = "";
+
+			var result = xhr.response.split('\n');
+			for (int i = 0; i < result.length; i++) {
+
+				product_props = result[i].split(";");
+				prodname = product_props[0];
+				prodprice = product_props[1];
+
+				prodlist.innerHTML +=
+				'<option name = "' + prodprice + '">' + (
+					new Intl.NumberFormat(
+						"ru", {useGrouping: false, minimumIntegerDigits: 6}).format(
+							Number(prodlist.lastElementChild.innerHTML.split(' ')[0])+1
+						)
+				) +
+				' ' + prodname + '</option>';
+			}
+		}
+	};
+	xhr.send(`user=${database_opts.user}&password=${database_opts.passwd}&dbname=${database_opts.name}&dbtable=${database_opts.table}`);
 };

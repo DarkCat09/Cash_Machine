@@ -50,20 +50,22 @@
 			<button id = "add_col" onclick = "cloneTr();">Добавить</button>
 		</div>
 		<br />
-		<button id = "pay1" class = "button" onclick = "termPay(nal);">НАЛИЧНЫЕ</button>
-		<button id = "pay2" class = "button" onclick = "termPay(card);">КАРТА</button>
+		<button id = "pay1" class = "button" onclick = "termPay(nal);">Наличные</button>
+		<button id = "pay2" class = "button" onclick = "termPay(card);">Карта</button>
 		<label> К оплате: </label>
 		<input type = "number" min = "10" max = "2000000" id = "itogToPay" class = "itog" /> руб.
-		<span id = "bonusItogToPay" class = "itog"></span><br/>
-		<button id = "clear" class = "button" onclick = "clearItog();">CLEAR</button>
-		<button id = "add_products" class = "button" onclick = "addProducts();">ADD PRODS</button><br />
-		<input type = "checkbox" id = "enShortcuts" onchange = "informAboutShortcuts();" /> Включить горячие клавиши<br />
+		<span id = "bonusItogToPay" class = "itog"></span>
+		<button id = "clear" class = "button" onclick = "clearItog();">Очистить</button><br /><br />
+		<button id = "add_products" class = "button" onclick = "addProducts();">Добавить продукты</button>
+		<button class="button" id="get_products" onlick="getProducts();">Получить продукты из БД</button>
+		<br /><br />
+		<input type = "checkbox" id = "enShortcuts" onchange = "informAboutShortcuts();" /> Включить горячие клавиши
+		<br /><br />
 		<div id = "printTableDiv">
 			<span id = "labelPrint">PRINT:</span>
 		</div>
 		<datalist id = "products_list">
 			<!-- Products -->
-			<option>000001 Продукт "Производитель"</option>
 		</datalist>
 	</body>
 </html>
