@@ -12,7 +12,7 @@
 		<span id = "cashier-name">Кассир: </span>
 
 		<script>
-			if ((cashier === null) || (cashier == "") || (cashier == " ")) {
+			if ((!cashier) || (String(cashier).trim() == "")) {
 				cashier = "Аноним";
 			}
 			alert(cashier + ", Вас приветствует система A.Ch. Terminal!");
@@ -56,11 +56,14 @@
 		<input type = "number" min = "10" max = "2000000" id = "itogToPay" class = "itog" /> руб.
 		<span id = "bonusItogToPay" class = "itog"></span>
 		<button id = "clear" class = "button" onclick = "clearItog();">Очистить</button><br /><br />
-		<button id = "add_products" class = "button" onclick = "addProducts();">Добавить продукты</button>
-		<button class="button" id="get_products" onlick="getProducts();">Получить продукты из БД</button>
-		<br /><br />
+		<fieldset>
+			<legend>База продуктов</legend>
+			<button id = "add_products" class = "button" onclick = "addProducts();">Добавить продукты</button>
+			<button class="button" id="get_products" onlick="getProducts();">Получить продукты из БД</button>
+		</fieldset>
+		<br />
 		<input type = "checkbox" id = "enShortcuts" onchange = "informAboutShortcuts();" /> Включить горячие клавиши
-		<br /><br />
+		<br />
 		<div id = "printTableDiv">
 			<span id = "labelPrint">PRINT:</span>
 		</div>

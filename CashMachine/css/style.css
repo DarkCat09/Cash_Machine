@@ -30,3 +30,7 @@ span {
 canvas {
 	margin-left: 200px;
 }
+
+fieldset {
+	width: wrap-content;
+}
